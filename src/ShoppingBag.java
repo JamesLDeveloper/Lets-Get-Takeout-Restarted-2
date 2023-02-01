@@ -1,2 +1,4 @@
-public class ShoppingBag {
-}
+import java.util.HashMap;
+import java.util.Map;
+
+// Create ShoppingBag class here
