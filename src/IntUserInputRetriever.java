@@ -1,2 +1,5 @@
-public class IntUserInputRetriever {
+public interface IntUserInputRetriever<T> {
+
+    public T produceOutputOnUserInput(int selection);
+
 }
