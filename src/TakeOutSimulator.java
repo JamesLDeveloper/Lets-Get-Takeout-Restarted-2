@@ -8,7 +8,7 @@ public class TakeOutSimulator {
     private FoodMenu menu;
     private Scanner input;
 
-    public TakeOutSimulator(Customer customer, Scanner input, FoodMenu menu) {
+    public TakeOutSimulator(Customer customer, Scanner input) {
         this.customer = customer;
         this.menu = menu;
         this.input = input;
@@ -56,5 +56,85 @@ public class TakeOutSimulator {
                 return true;
             }
         };
+        return getOutputOnIntInput(userPrompt, intUserInputRetriever);
     }
+
+    public Food getMenuSelection() {
+        String userPrompt = "Please choose an item from the menu by entering it's item number as an integer. e.g. 1\n Today's menu is:\n" + menu.toString();
+        IntUserInputRetriever<?> intUserInputRetriever = selection -> {
+
+            if (menu.getFood(selection) != null) {
+                return menu.getFood(selection);
+            } else {
+                throw new IllegalArgumentException("Sorry that choice is not valid please try again using the item number as an integer.");
+
+            }
+        };
+        return getOutputOnIntInput(userPrompt, intUserInputRetriever);
+    }
+
+    public boolean isStillOrderingFood(){
+        String userPrompt ="If you would like to continue shopping please enter 1. If you would like to checkout please enter 0. If you would like to exit please enter 2.";
+        IntUserInputRetriever<?> intUserInputRetriever = selection -> {
+            if (selection == 1){
+                return true;
+            } else if (selection == 0){
+                return false;
+            } else if (selection == 2) {
+                System.out.println("You have chosen to leave without ordering. Please come again soon.");
+             System.exit(0);
+            } throw new IllegalArgumentException("Invalid input. Please enter 1 to continue shopping. Please enter 0 to checkout.");
+        };
+        return getOutputOnIntInput(userPrompt, intUserInputRetriever);
+    }
+
+public void checkoutCustomer(ShoppingBag<Food> shoppingBag){
+        System.out.println("Payment processing");
+        customer.setMoney(customer.getMoney()-shoppingBag.getTotalPrice());
+        System.out.println("You have spent " + shoppingBag.getTotalPrice());
+        System.out.println("You have " + customer.getMoney() + " left.");
+        System.out.println("Please enjoy your meal");
+}
+
+public void takeOutPrompt() {
+    while (isStillOrderingFood()) {
+        ShoppingBag<Food> shoppingBag = new ShoppingBag<>();
+        int customerMoneyLeft = customer.getMoney();
+        System.out.println("You have " + customerMoneyLeft);
+        Food choice = getMenuSelection();
+        if (choice.getPrice() <= customerMoneyLeft){
+            shoppingBag.addItem(choice);
+            customerMoneyLeft -= choice.getPrice();
+//            break;
+//            isStillOrderingFood();
+        } else {
+            System.out.println("Sorry you don't have enough money for that");
+//            break;
+//            isStillOrderingFood();
+        }
+
+    }
+}
+
+public void startTakeOutSimulator(){
+    System.out.println("Welcome to Globodine" + customer.getName() + ".");
+        while(shouldSimulate()){
+        takeOutPrompt();
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
