@@ -8,10 +8,13 @@ public class TakeOutSimulator {
     private FoodMenu menu;
     private Scanner input;
 
+    private ShoppingBag shoppingBag;
+
     public TakeOutSimulator(Customer customer, Scanner input) {
         this.customer = customer;
-        this.menu = menu;
+        this.menu = new FoodMenu();
         this.input = input;
+        this.shoppingBag = new ShoppingBag<>();
     }
 
     private <T> T getOutputOnIntInput(String userInputPrompt, IntUserInputRetriever intUserInputRetriever) {
@@ -41,20 +44,23 @@ public class TakeOutSimulator {
     public boolean shouldSimulate() {
         String userPrompt = "If you would like to proceed enter 1. If you would like to exit please enter 0.";
         IntUserInputRetriever<?> intUserInputRetriever = selection -> {
-            try {
-                if (selection == 1 && customer.getMoney() >= menu.getLowestCostFood().getPrice()) {
-                    return true;
-                } else if (selection == 1 && customer.getMoney() < menu.getLowestCostFood().getPrice()) {
-                    System.out.println("Sorry you don't have enough money for that. Exiting online ordering system.");
-                    return false;
-                } else {
-                    System.out.println("Goodbye, we hope you will order with us again soon.");
-                    return false;
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Sorry that is not a valid selection. If you would like to proceed please enter 1. If you would like to exit please enter 0.");
+            //           try {
+            if (selection == 1 && customer.getMoney() >= menu.getLowestCostFood().getPrice()) {
+                System.out.println("You have chosen to proceed and have enough money to purchase the lowest cost item which is " + menu.getLowestCostFood());
                 return true;
-            }
+            } else if (selection == 1 && customer.getMoney() < menu.getLowestCostFood().getPrice()) {
+                System.out.println("Sorry you don't have enough money for that. Exiting online ordering system.");
+                return false;
+            } else if (selection == 0) {
+                System.out.println("Goodbye, we hope you will order with us again soon.");
+                return false;
+            } else {
+                throw new IllegalArgumentException("Sorry that is not a valid selection. If you would like to proceed please enter 1. If you would like to exit please enter 0.");
+//            } catch (IllegalArgumentException e)
+        }
+//                System.out.println("Sorry that is not a valid selection. If you would like to proceed please enter 1. If you would like to exit please enter 0.");
+      //          return true;
+      //      }
         };
         return getOutputOnIntInput(userPrompt, intUserInputRetriever);
     }
@@ -82,8 +88,11 @@ public class TakeOutSimulator {
                 return false;
             } else if (selection == 2) {
                 System.out.println("You have chosen to leave without ordering. Please come again soon.");
-             System.exit(0);
-            } throw new IllegalArgumentException("Invalid input. Please enter 1 to continue shopping. Please enter 0 to checkout.");
+                System.exit(0);
+             return false;
+            } else {
+                throw new IllegalArgumentException("Invalid input. Please enter 1 to continue shopping. Please enter 0 to checkout.");
+            }
         };
         return getOutputOnIntInput(userPrompt, intUserInputRetriever);
     }
@@ -94,11 +103,12 @@ public void checkoutCustomer(ShoppingBag<Food> shoppingBag){
         System.out.println("You have spent " + shoppingBag.getTotalPrice());
         System.out.println("You have " + customer.getMoney() + " left.");
         System.out.println("Please enjoy your meal");
+        System.exit(0);
 }
 
 public void takeOutPrompt() {
     while (isStillOrderingFood()) {
-        ShoppingBag<Food> shoppingBag = new ShoppingBag<>();
+//        ShoppingBag<Food> shoppingBag = new ShoppingBag<>();
         int customerMoneyLeft = customer.getMoney();
         System.out.println("You have " + customerMoneyLeft);
         Food choice = getMenuSelection();
@@ -114,6 +124,7 @@ public void takeOutPrompt() {
         }
 
     }
+    checkoutCustomer(shoppingBag);
 }
 
 public void startTakeOutSimulator(){

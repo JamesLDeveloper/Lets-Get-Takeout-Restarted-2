@@ -47,16 +47,30 @@ public class FoodMenu {
 //    }
 
 
+//    @Override
+//    public String toString() {
+//        String wholeMenu = "";
+//        for (int i = 0; i < menu.size(); i++) {
+//
+//            wholeMenu = menu.indexOf(i) + ": " + menu.get(i).toString();
+//
+//        }
+//        return wholeMenu;
+//    }
+
     @Override
     public String toString() {
-        String wholeMenu = "";
-        for (int i = 0; i < menu.size(); i++) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < menu.size() + 1; i++) {
+sb.append("\n" + i + ": " + getFood(i).toString());
 
-            wholeMenu = menu.indexOf(i) + ": " + menu.get(i).toString();
 
         }
-        return wholeMenu;
+        return sb.toString();
     }
+
+
+
 
     public Food getFood(int index) {
         if (menu.get(index - 1) != null) {
