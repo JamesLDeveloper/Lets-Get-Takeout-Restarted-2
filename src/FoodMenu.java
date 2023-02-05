@@ -11,22 +11,24 @@ public class FoodMenu {
 
     Food food;
 
-    private List<Food> menu;
+    private List<Food> menu = new ArrayList<>();
 
     public FoodMenu() {
 
 
-        Food bakedbeans = new Food("Baked Beans", "Delicious", 3);
-        Food katsuCurry = new Food("Chicken Katsu Curry", "Chicken in breadcrumbs with rice and sauce", 8);
+        Food bakedbeans = new Food("Baked Beans", "Baked beans on white toast.", 3);
+        Food katsuCurry = new Food("Chicken Katsu Curry", "Chicken in breadcrumbs with rice and sauce.", 8);
         Food steakAndChips = new Food("Steak and Chips", "Medium Rare Sirloin steak with garlic butter, double cooked chips and seasonal veg.", 29);
 
 
         //       menu = new ArrayList<Food>();
-        menu = new ArrayList<Food>(Arrays.asList(bakedbeans, katsuCurry, steakAndChips));
+ //       menu.addAll(Arrays.asList(bakedbeans, katsuCurry, steakAndChips));
 
-//menu.add(bakedbeans);
-//menu.add(katsuCurry);
-//menu.add(steakAndChips);
+
+
+menu.add(bakedbeans);
+menu.add(katsuCurry);
+menu.add(steakAndChips);
 //menu.add()
 
 
@@ -70,7 +72,10 @@ sb.append("\n" + i + ": " + getFood(i).toString());
     }
 
 
+public int menuSize(){
+       return menu.size();
 
+}
 
     public Food getFood(int index) {
         if (menu.get(index - 1) != null) {

@@ -66,15 +66,21 @@ public class TakeOutSimulator {
     }
 
     public Food getMenuSelection() {
-        String userPrompt = "Please choose an item from the menu by entering it's item number as an integer. e.g. 1\n Today's menu is:\n" + menu.toString();
+        String userPrompt = "Please choose an item from the menu by entering it's item number as an integer. e.g. 1\n Today's menu is:" + menu.toString() + "\n0 to checkout.";
         IntUserInputRetriever<?> intUserInputRetriever = selection -> {
-
-            if (menu.getFood(selection) != null) {
-                return menu.getFood(selection);
-            } else {
-                throw new IllegalArgumentException("Sorry that choice is not valid please try again using the item number as an integer.");
-
+            try{
+                if(selection == 0) {
+                    checkoutCustomer(shoppingBag);
+                    return null;}
+                else if (menu.getFood(selection) != null) { return menu.getFood(selection);}
+                else {throw new IllegalArgumentException("Sorry that choice is not valid please try again using the item number as an integer.");}
+        } catch (IndexOutOfBoundsException e) {
+               System.out.println("Sorry that choice is not valid please choose an valid item number from the menu.");
+               return getMenuSelection();
+               // return null;
             }
+
+
         };
         return getOutputOnIntInput(userPrompt, intUserInputRetriever);
     }
@@ -85,14 +91,18 @@ public class TakeOutSimulator {
             if (selection == 1){
                 return true;
             } else if (selection == 0){
+                checkoutCustomer(shoppingBag);
                 return false;
             } else if (selection == 2) {
                 System.out.println("You have chosen to leave without ordering. Please come again soon.");
                 System.exit(0);
              return false;
             } else {
+                System.out.println("Invalid input.");
+                isStillOrderingFood();
                 throw new IllegalArgumentException("Invalid input. Please enter 1 to continue shopping. Please enter 0 to checkout.");
             }
+
         };
         return getOutputOnIntInput(userPrompt, intUserInputRetriever);
     }
@@ -128,24 +138,10 @@ public void takeOutPrompt() {
 }
 
 public void startTakeOutSimulator(){
-    System.out.println("Welcome to Globodine" + customer.getName() + ".");
+    System.out.println("Welcome to Globodine " + customer.getName() + "!");
         while(shouldSimulate()){
         takeOutPrompt();
         }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
