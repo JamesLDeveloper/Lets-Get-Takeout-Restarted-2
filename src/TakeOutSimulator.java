@@ -72,7 +72,10 @@ public class TakeOutSimulator {
                 if(selection == 0) {
                     checkoutCustomer(shoppingBag);
                     return null;}
-                else if (menu.getFood(selection) != null) { return menu.getFood(selection);}
+                else if (menu.getFood(selection) != null) {
+                    System.out.println("You have chosen " + menu.getFood(selection).toString());
+                    System.out.println(shoppingBag.checkBag());
+                    return menu.getFood(selection);}
                 else {throw new IllegalArgumentException("Sorry that choice is not valid please try again using the item number as an integer.");}
         } catch (IndexOutOfBoundsException e) {
                System.out.println("Sorry that choice is not valid please choose an valid item number from the menu.");
@@ -108,6 +111,7 @@ public class TakeOutSimulator {
     }
 
 public void checkoutCustomer(ShoppingBag<Food> shoppingBag){
+        System.out.println(shoppingBag.checkBag());
         System.out.println("Payment processing");
         customer.setMoney(customer.getMoney()-shoppingBag.getTotalPrice());
         System.out.println("You have spent " + shoppingBag.getTotalPrice());

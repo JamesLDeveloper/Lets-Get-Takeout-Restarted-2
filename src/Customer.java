@@ -26,4 +26,7 @@ public int getMoney(){
     return this.money;
 }
 
+
+//    public void checkBag() {
+//    }
 }

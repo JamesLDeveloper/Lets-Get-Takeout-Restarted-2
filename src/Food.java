@@ -20,9 +20,13 @@ public class Food implements PricedItem<Integer> {
        return this.price;
     }
 
+    public String getFoodName(){
+       return this.name;
+    }
+
     @Override
     public String toString(){
-       return "Enjoy " + this.name + ": " + this.description + " Cost: " + this.price;
+       return this.name + ": " + this.description + " Cost: " + this.price;
     }
 
 }

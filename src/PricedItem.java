@@ -4,5 +4,5 @@ public interface PricedItem <T extends Number> {
 
    public void setPrice(T price);
 
-
+//    public T getFoodName();
 }
