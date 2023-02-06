@@ -45,7 +45,7 @@ public class ShoppingBag <T extends PricedItem<Integer>> {
         StringBuilder cb = new StringBuilder();
         cb.append("Your basket contains:");
         for (Map.Entry<T, Integer> pair: shoppingBag.entrySet()){
-            cb.append("\n" + pair.getKey().toString() + ". Number in shopping bag: " +  pair.getValue() + "items cost: "+ (pair.getKey().getPrice() * pair.getValue()));
+            cb.append("\n" + pair.getKey().toString() + ". Number in shopping bag: " +  pair.getValue() + " Items cost: "+ (pair.getKey().getPrice() * pair.getValue()));
         }
 cb.append("\nTotal cost: " + getTotalPrice());
 

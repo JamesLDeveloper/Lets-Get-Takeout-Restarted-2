@@ -8,7 +8,7 @@ public class TakeOutSimulator {
     private FoodMenu menu;
     private Scanner input;
 
-    private ShoppingBag shoppingBag;
+    private ShoppingBag<Food> shoppingBag;
 
     public TakeOutSimulator(Customer customer, Scanner input) {
         this.customer = customer;
@@ -74,7 +74,7 @@ public class TakeOutSimulator {
                     return null;}
                 else if (menu.getFood(selection) != null) {
                     System.out.println("You have chosen " + menu.getFood(selection).toString());
-                    System.out.println(shoppingBag.checkBag());
+//                    System.out.println(shoppingBag.checkBag());
                     return menu.getFood(selection);}
                 else {throw new IllegalArgumentException("Sorry that choice is not valid please try again using the item number as an integer.");}
         } catch (IndexOutOfBoundsException e) {
@@ -123,16 +123,18 @@ public void checkoutCustomer(ShoppingBag<Food> shoppingBag){
 public void takeOutPrompt() {
     while (isStillOrderingFood()) {
 //        ShoppingBag<Food> shoppingBag = new ShoppingBag<>();
-        int customerMoneyLeft = customer.getMoney();
-        System.out.println("You have " + customerMoneyLeft);
+        int customerMoneyLeft = customer.getMoney() - shoppingBag.getTotalPrice();
+        System.out.println("You have " + customerMoneyLeft + "left of your budget to spend.");
         Food choice = getMenuSelection();
         if (choice.getPrice() <= customerMoneyLeft){
             shoppingBag.addItem(choice);
             customerMoneyLeft -= choice.getPrice();
+            System.out.println(shoppingBag.checkBag());
 //            break;
 //            isStillOrderingFood();
         } else {
-            System.out.println("Sorry you don't have enough money for that");
+            System.out.println("Sorry you don't have enough money for that.");
+            System.out.println(shoppingBag.checkBag());
 //            break;
 //            isStillOrderingFood();
         }

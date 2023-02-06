@@ -9,7 +9,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter your name.");
         String customerName = input.nextLine();
-        System.out.println("Please enter your amount to spend as an integer.");
+        System.out.println("Please enter your budget to spend as an integer.");
 
 
         boolean notEnteredCorrectly = true;
